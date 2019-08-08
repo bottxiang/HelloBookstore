@@ -15,6 +15,16 @@ public class Book extends DataSupport {
 	private String bookOnline;
 	private String bookBytime;
 
+	private int imageID;
+
+	public int getImageID() {
+		return imageID;
+	}
+
+	public void setImageID(int imageID) {
+		this.imageID = imageID;
+	}
+
 	public Book(String bookName, String bookCatalog, String bookTags, String bookAbstract, String bookContent, String imageUrl, String reading, String bookOnline, String bookBytime) {
 		this.bookName = bookName;
 		this.bookCatalog = bookCatalog;

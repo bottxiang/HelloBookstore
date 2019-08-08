@@ -1,10 +1,5 @@
 package com.example.hellobookstore;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,20 +7,29 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
-import org.w3c.dom.Text;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
+
+	List<String> titles = new ArrayList<>();
+	List<Fragment> fragments = new ArrayList<>();
+
 
 	TabLayout tabLayout;
 	ViewPager viewPager;
 
-	List<String> titles = new ArrayList<>();
-	List<Fragment> fragments = new ArrayList<>();
+	ImageView tabIcon;
+	TextView tabText;
 
 	private int[] icons = {
 			R.color.selector_tab1,
@@ -37,10 +41,12 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		//ButterKnife.bind(this);
 
 		initView();
 
 		initData();
+
 	}
 
 	private void initView() {
@@ -56,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 		fragments.add(HomeFragment.newInstance("Two"));
 		fragments.add(HomeFragment.newInstance("Three"));
 
-		ViewPagerAdapter viewPagerAdapter= new ViewPagerAdapter(getSupportFragmentManager(), titles, fragments);
+		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, fragments);
 		viewPager.setAdapter(viewPagerAdapter);
 		tabLayout.setupWithViewPager(viewPager);
 
@@ -72,10 +78,11 @@ public class MainActivity extends AppCompatActivity {
 
 	private View getTabView(int position) {
 		View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.tab_item, null);
-		ImageView tab_icon = (ImageView) view.findViewById(R.id.tab_icon);
-		TextView tab_text = (TextView) view.findViewById(R.id.tab_text);
-		tab_icon.setImageResource(icons[position]);
-		tab_text.setText(titles.get(position));
+		tabIcon = (ImageView) view.findViewById(R.id.tab_icon);
+		tabText = (TextView) view.findViewById(R.id.tab_text);
+
+		tabIcon.setImageResource(icons[position]);
+		tabText.setText(titles.get(position));
 		Log.e("xxx", titles.get(position));
 		return view;
 	}

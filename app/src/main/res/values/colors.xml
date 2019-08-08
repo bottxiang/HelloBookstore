@@ -12,8 +12,9 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorTransparent">#00FFFFFF</color>
-    <color name="colorOrange">#F57F17</color>
+    <color name="colorOrange">#FD3D27</color>
     <color name="colorBlue">#0288D1</color>
     <color name="colorPurple">#9B46BE</color>
     <color name="colorYellow">#F0E15D</color>
+    <color name="colorGrey">#878787</color>
 </resources>
