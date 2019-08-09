@@ -15,7 +15,19 @@ public class Book extends DataSupport {
 	private String bookOnline;
 	private String bookBytime;
 
+	private String catalogId;
+
 	private int imageID;
+
+	public String getCatalogId() {
+		return catalogId;
+	}
+
+	public void setCatalogId(String catalogId) {
+		this.catalogId = catalogId;
+	}
+
+
 
 	public int getImageID() {
 		return imageID;
@@ -25,7 +37,7 @@ public class Book extends DataSupport {
 		this.imageID = imageID;
 	}
 
-	public Book(String bookName, String bookCatalog, String bookTags, String bookAbstract, String bookContent, String imageUrl, String reading, String bookOnline, String bookBytime) {
+	public Book(String bookName, String bookCatalog, String bookTags, String bookAbstract, String bookContent, String imageUrl, String reading, String bookOnline, String bookBytime, String catalogId) {
 		this.bookName = bookName;
 		this.bookCatalog = bookCatalog;
 		this.bookTags = bookTags;
@@ -35,6 +47,7 @@ public class Book extends DataSupport {
 		this.reading = reading;
 		this.bookOnline = bookOnline;
 		this.bookBytime = bookBytime;
+		this.catalogId = catalogId;
 	}
 
 	public Book() {

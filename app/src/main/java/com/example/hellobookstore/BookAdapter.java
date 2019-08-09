@@ -53,7 +53,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 		Book book = books.get(position);
-		Glide.with(context).load(book.getImageID()).into(holder.bookImage);
+		Glide.with(context).load(book.getImageUrl()).into(holder.bookImage);
 		holder.bookName.setText(book.getBookName());
 	}
 
