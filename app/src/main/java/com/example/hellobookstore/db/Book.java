@@ -19,6 +19,11 @@ public class Book extends DataSupport {
 
 	private int imageID;
 
+	public Book(String bookName, String imageUrl) {
+		this.bookName = bookName;
+		this.imageUrl = imageUrl;
+	}
+
 	public String getCatalogId() {
 		return catalogId;
 	}

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
-    <dbname value="HelloBookstore"></dbname>
-    <version value="1"></version>
+    <dbname value="HelloBookstore" />
+    <version value="1" />
 
     <list>
         <mapping class="com.example.hellobookstore.db.Book" />
         <mapping class="com.example.hellobookstore.db.BookCatalog"/>
+        <mapping class="com.example.hellobookstore.db.User"/>
     </list>
 </litepal>

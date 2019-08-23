@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:item_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/colorOrange" />
+    <com.example.hellobookstore.ItemView
+        android:id="@+id/id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        item_view:left_icon="@drawable/my"
+        item_view:left_text="账号"
+        item_view:right_text="zzzzzz"/>
+
+    <com.example.hellobookstore.ItemView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        item_view:left_icon="@drawable/my"
+        item_view:left_text="昵称" />
+
+    <com.example.hellobookstore.ItemView
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        item_view:left_icon="@drawable/my"
+        item_view:left_text="密码"
+        item_view:right_text="ppppppp"/>
+
+    <com.example.hellobookstore.ItemView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        item_view:left_icon="@drawable/my"
+        item_view:left_text="Email" />
+
+</LinearLayout>

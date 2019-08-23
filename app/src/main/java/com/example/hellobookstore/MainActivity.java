@@ -11,13 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.hellobookstore.home.HomeFragment;
+import com.example.hellobookstore.my.MyFragment;
+import com.example.hellobookstore.type.TypeFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 	ImageView tabIcon;
 	TextView tabText;
 
+
 	private int[] icons = {
 			R.color.selector_tab1,
 			R.color.selector_tab2,
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		//ButterKnife.bind(this);
 
 		initView();
 
@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
 
 	private void initData() {
 		titles.add("首页");
-		titles.add("书籍分类列表");
-		titles.add("个人中心");
+//		titles.add("书籍分类列表");
+//		titles.add("个人中心");
 		fragments.add(HomeFragment.newInstance("One"));
-		fragments.add(HomeFragment.newInstance("Two"));
-		fragments.add(HomeFragment.newInstance("Three"));
+//		fragments.add(TypeFragment.newInstance("Two"));
+//		fragments.add(MyFragment.newInstance("Three"));
 
 		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, fragments);
 		viewPager.setAdapter(viewPagerAdapter);
@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
 	private void setTabIcon() {
 		tabLayout.getTabAt(0).setCustomView(getTabView(0));
-		tabLayout.getTabAt(1).setCustomView(getTabView(1));
-		tabLayout.getTabAt(2).setCustomView(getTabView(2));
+//		tabLayout.getTabAt(1).setCustomView(getTabView(1));
+//		tabLayout.getTabAt(2).setCustomView(getTabView(2));
 	}
 
 	private View getTabView(int position) {
