@@ -57,10 +57,10 @@ public class MainActivity extends AppCompatActivity {
 	private void initData() {
 		titles.add("首页");
 //		titles.add("书籍分类列表");
-//		titles.add("个人中心");
+		titles.add("个人中心");
 		fragments.add(HomeFragment.newInstance("One"));
 //		fragments.add(TypeFragment.newInstance("Two"));
-//		fragments.add(MyFragment.newInstance("Three"));
+		fragments.add(MyFragment.newInstance("Three"));
 
 		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, fragments);
 		viewPager.setAdapter(viewPagerAdapter);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 	private void setTabIcon() {
 		tabLayout.getTabAt(0).setCustomView(getTabView(0));
 //		tabLayout.getTabAt(1).setCustomView(getTabView(1));
-//		tabLayout.getTabAt(2).setCustomView(getTabView(2));
+		tabLayout.getTabAt(1).setCustomView(getTabView(1));
 	}
 
 	private View getTabView(int position) {

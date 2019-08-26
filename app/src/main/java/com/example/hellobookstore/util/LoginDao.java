@@ -29,12 +29,24 @@ public class LoginDao {
 		return null;
 	}
 
+	//添加用户
 	public static void addUser(User user) {
 		user.save();
 	}
+
+	//判断当前账号是否已经注册
 	public static boolean isAccountExisted(String account){
 		Log.d(TAG, account);
 		List<User> users = DataSupport.where("username=?", account).find(User.class);
 		return users.size() > 0;
+	}
+
+	//根据username返回user对象
+	public static User getUser(String username) {
+		List<User> users = DataSupport.where("username=?", username).find(User.class);
+		if (users.size() == 1) {
+			return users.get(0);
+		}
+		return null;
 	}
 }

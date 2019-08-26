@@ -1,5 +1,6 @@
 package com.example.hellobookstore.my;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -131,10 +132,13 @@ public class MyFragment extends Fragment {
 	public void onViewClicked(View view) {
 		switch (view.getId()) {
 			case R.id.my:
-				Intent intent = new Intent(getActivity(), MyActivity.class);
-				startActivity(intent);
+				Intent intent1 = new Intent(getActivity(), MyActivity.class);
+				startActivity(intent1);
 				break;
 			case R.id.list:
+				Intent intent2 = new Intent(getActivity(), BorrowedBooksActivity.class);
+				intent2.putExtra("username", username);
+				startActivity(intent2);
 				break;
 		}
 	}

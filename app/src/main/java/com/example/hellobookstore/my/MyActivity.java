@@ -92,6 +92,7 @@ public class MyActivity extends AppCompatActivity {
 		}
 	}
 
+
 	@OnClick({R.id.id, R.id.name, R.id.password, R.id.email})
 	public void onViewClicked(View view) {
 		switch (view.getId()) {

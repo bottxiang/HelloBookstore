@@ -1,11 +1,13 @@
 package com.example.hellobookstore.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,9 +31,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 		ImageView bookImage;
 		@BindView(R.id.book_name)
 		TextView bookName;
+		View bookItemView;
 
 		ViewHolder(View view) {
 			super(view);
+			bookItemView = view;
 			ButterKnife.bind(this, view);
 		}
 	}
@@ -48,6 +52,18 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 		}
 		View view = LayoutInflater.from(context).inflate(R.layout.book_item, parent, false);
 		ViewHolder viewHolder = new ViewHolder(view);
+		viewHolder.bookItemView.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				int position = viewHolder.getAdapterPosition();
+				Book book = books.get(position);
+				Toast.makeText(context, "you clicked view" + book.getBookName(), Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(context, BookActivity.class);
+				intent.putExtra("bookId", book.getId());
+				context.startActivity(intent);
+			}
+		});
 		return viewHolder;
 	}
 

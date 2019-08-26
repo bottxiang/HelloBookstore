@@ -141,24 +141,16 @@ public class HomeFragment extends Fragment {
 				queryBookFromServer(catalogId);
 			}
 
-			ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
-			int noThreads = currentGroup.activeCount();
-			Thread[] threads = new Thread[noThreads];
-			currentGroup.enumerate(threads);
-			for (Thread t : threads) {
-				if (Thread.currentThread().getId()!=t.getId()) {
-					try {
-						t.join();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 
 			//queryBook();
 			books.clear();
 			books.addAll(DataSupport.findAll(Book.class));
-			Log.e(TAG,"开始querybook 66 " + Thread.currentThread().getName()+ books.size());
+			Log.e(TAG,"开始querybook 66 " + + books.size());
 			adapter.notifyDataSetChanged();
 		}
 	}

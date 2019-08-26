@@ -1,9 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:item_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".type.BookActivity">
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/colorOrange" />
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal">
+               <ImageView
+                   android:id="@+id/book_image"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:scaleType="centerInside"/>
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="24sp"
+                           android:text="书名："/>
+                       <TextView
+                           android:id="@+id/book_name"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:textSize="24sp"
+                           android:text="向诸葛亮借智慧"/>
+                   </LinearLayout>
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="24sp"
+                           android:text="分类："/>
+                       <TextView
+                           android:id="@+id/book_catalog"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:textSize="24sp"
+                           android:text="历史 心理学 管理"/>
+                   </LinearLayout>
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="24sp"
+                           android:text="书籍状态："/>
+                       <TextView
+                           android:id="@+id/book_rented"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:textSize="24sp"
+                           android:text="已借出"/>
+                       <Button
+                           android:id="@+id/btn_borrow"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:textSize="20sp"
+                           android:text="点击借阅"/>
+                   </LinearLayout>
+               </LinearLayout>
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+               <TextView
+                   android:layout_width="180dp"
+                   android:layout_height="wrap_content"
+                   android:textSize="24sp"
+                   android:text="图书内容简介："/>
+               <TextView
+                   android:id="@+id/book_content"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="10dp"
+                   android:textSize="22sp"
+                   android:text="《向诸葛亮借智慧》是中央电视台《百家讲坛》主讲人赵玉平老师编著的一 本管理学类图书。作品从管理学和心理学的角度出发，运用人力资源管理和组织行为学的知识，解读了三国睿智军师诸葛亮的一生。本书对三顾茅庐、舌战群儒、赤壁大战、空城计、斩马谡、六出祁山、七擒孟获等与诸葛亮相关的大事件进行了精辟的分析。 诸葛亮（公元181年7月23日—234年8月28日），三国时期蜀国丞相，字孔明，号卧龙，琅琊阳都人，是三国时期杰出的政治家、军事家、发明家和文学家。诸葛亮上知天文、下知地理，雄才大略、才华横溢。为匡扶蜀汉政权，他呕心沥血，鞠躬尽瘁，死而后已。唐朝诗人杜甫有诗赞道：“三顾频烦天下计，两朝开济老臣心。出师未捷身先死，长使英雄泪满襟。”，可见诸葛亮受到后世人们极大的尊崇，是后世忠臣的楷模、智慧的化身。 《向诸葛亮借智慧》一书是管理学教授赵玉平“麻辣说三国”系列中的一部文学作品。赵玉平老师同易中天教授一起被权威机构评选为“2009中国十大国学专家”，是运用管理学、国学、心理学综合解析《水浒传》、三国历史人物的中国第一人，开辟了运用管理学和心理学解读传统经典的新领域。 隆中对策、舌战群儒、草船借箭、七擒孟获……一个个璀璨如明珠的经典故事，成就了诸葛亮无人企及的智慧传奇。但是，孔明先生的智慧究竟从何而来呢？在千百年后的今天，他的卓越智慧又能给今天的我们带来哪些启迪和帮助呢？《向诸葛亮借智慧》一书从一个崭新的角度观察诸葛亮这个重要的历史人物和相关的历史事件，讲故事的同时也分析规律，并结合当今现实生活，古为今用，总结出能够运用于求职、求人、用人、管人等现实生活中的规律和技巧。 鲁迅说：“关公之义近乎伪，诸葛之智近乎妖。” 《向诸葛亮借智慧》，哪怕只借到了一点点，也足够让我们的生活过得更轻松、更顺心了。 《向诸葛亮借智慧》"/>
+           </LinearLayout>
+
+       </LinearLayout>
+
+   </ScrollView>
+
+</LinearLayout>

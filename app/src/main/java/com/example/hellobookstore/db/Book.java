@@ -14,16 +14,31 @@ public class Book extends DataSupport {
 	private String reading;
 	private String bookOnline;
 	private String bookBytime;
-
+	private long     id;
+	private boolean rented;
 	private String catalogId;
-
 	private int imageID;
 
 	public Book(String bookName, String imageUrl) {
 		this.bookName = bookName;
 		this.imageUrl = imageUrl;
+		this.rented = false;
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	public boolean isRented() {
+		return rented;
+	}
+
+	public void setRented(boolean rented) {
+		this.rented = rented;
+	}
 	public String getCatalogId() {
 		return catalogId;
 	}
@@ -53,9 +68,11 @@ public class Book extends DataSupport {
 		this.bookOnline = bookOnline;
 		this.bookBytime = bookBytime;
 		this.catalogId = catalogId;
+		this.rented = false;
 	}
 
 	public Book() {
+		this.rented = false;
 	}
 
 	public String getBookName() {

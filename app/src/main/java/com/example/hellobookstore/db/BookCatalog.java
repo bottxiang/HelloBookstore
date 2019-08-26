@@ -6,10 +6,21 @@ public class BookCatalog extends DataSupport {
 
 	private String bookCatalogId;
 	private String bookCatalogName;
+	private long id;
+
+
 
 	public BookCatalog(String bookCatalogId, String bookCatalogName) {
 		this.bookCatalogId = bookCatalogId;
 		this.bookCatalogName = bookCatalogName;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getBookCatalogId() {

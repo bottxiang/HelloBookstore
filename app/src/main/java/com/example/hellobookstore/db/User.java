@@ -4,27 +4,54 @@ import org.litepal.crud.DataSupport;
 
 public class User extends DataSupport {
 
+	private Long id;
 	private String username;
 	private String name;
 	private String password;
 	private String email;
 
+	private String rentedBookString;
+
 
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
+		this.rentedBookString = "0";
 	}
 
 	public User() {
-
+		this.rentedBookString = "0";
 	}
 
 	public User(String username, String password, String email) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
+		this.rentedBookString = "1";
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void addBookId(Long id) {
+		StringBuilder sb = new StringBuilder(rentedBookString);
+		sb.append(id + " ");
+		//StringBuilder转换为String
+		rentedBookString = ""+ sb;
+	}
+
+	public String getRentedBookString() {
+		return rentedBookString;
+	}
+
+	public void setRentedBookString(String rentedBookString) {
+		this.rentedBookString = rentedBookString;
+	}
 
 	public String getUsername() {
 		return username;
