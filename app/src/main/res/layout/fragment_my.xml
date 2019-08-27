@@ -70,4 +70,5 @@
         item_view:left_icon="@drawable/list"
         item_view:left_text="已借书籍" />
 
+
 </LinearLayout>

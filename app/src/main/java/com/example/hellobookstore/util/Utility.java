@@ -1,20 +1,28 @@
 package com.example.hellobookstore.util;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.hellobookstore.db.Book;
 import com.example.hellobookstore.db.BookCatalog;
+import com.example.hellobookstore.db.User;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Utility {
 
@@ -83,6 +91,37 @@ public class Utility {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	//由书籍id数组返回书籍对象列表
+	public static List<Book> getBooks(String[] borrowedBookIds) {
+		List<Book> books = new ArrayList<>();
+		for (int i = 0; i < borrowedBookIds.length; i++) {
+			Book book = DataSupport.find(Book.class, Integer.valueOf(borrowedBookIds[i]));
+			if (book != null) {
+				books.add(book);
+			}
+		}
+		return books;
+	}
+
+	//生成借书消息
+	public static String generateMessage(Context context) {
+
+		SharedPreferences pref = context.getSharedPreferences("login_info", MODE_PRIVATE);
+		String username = pref.getString("username", "");
+		User user = LoginDao.getUser(username);
+		Log.e(TAG, "username: " + user.getUsername());
+		String[] borrowedBookIds = user.getRentedBookString().split(" ");
+		List<Book> books = Utility.getBooks(borrowedBookIds);
+		StringBuilder message = new StringBuilder("读者" + user.getUsername() + "，您当前共借了"
+				+ books.size() + "本书，分别是");
+		for (Book book : books) {
+			message.append("《" + book.getBookName() + "》，");
+		}
+		message.append("请阅读后按时归还！");
+
+		return message.toString();
 	}
 
 }

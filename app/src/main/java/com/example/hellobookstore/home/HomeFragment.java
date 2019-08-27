@@ -1,6 +1,7 @@
 package com.example.hellobookstore.home;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,9 @@ import com.bumptech.glide.Glide;
 import com.example.hellobookstore.R;
 import com.example.hellobookstore.db.Book;
 import com.example.hellobookstore.db.BookCatalog;
+import com.example.hellobookstore.db.User;
 import com.example.hellobookstore.util.HttpUtil;
+import com.example.hellobookstore.util.LoginDao;
 import com.example.hellobookstore.util.Utility;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
@@ -35,6 +38,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.example.hellobookstore.util.Utility.handleBookResponse;
 import static com.example.hellobookstore.util.Utility.handleCatalogResponse;
 
@@ -48,10 +52,13 @@ public class HomeFragment extends Fragment {
 	TextView textView;
 	@BindView(R.id.banner)
 	Banner banner;
+	@BindView(R.id.message)
+	TextView message;
 	@BindView(R.id.recycler_view)
 	RecyclerView recyclerView;
 
 	View rootView;
+
 
 	private BookAdapter adapter;
 	private List<Integer> images;
@@ -84,7 +91,7 @@ public class HomeFragment extends Fragment {
 			rootView = inflater.inflate(R.layout.fragment_home, container, false);
 		}
 		ButterKnife.bind(this, rootView);
-		textView.setText(getArguments().getString(ARG_PARAM));
+
 		loadData();
 		return rootView;
 	}
@@ -94,7 +101,7 @@ public class HomeFragment extends Fragment {
 		images = new ArrayList<>();
 		catalogs = new ArrayList<>();
 		books = new ArrayList<>();
-
+		//轮播图
 		images.add(R.drawable.ad1);
 		images.add(R.drawable.ad2);
 		images.add(R.drawable.ad3);
@@ -103,6 +110,9 @@ public class HomeFragment extends Fragment {
 				.setImages(images)//设置图片集合
 				.start();//banner设置方法全部调用完毕时最后调用
 
+		//借书消息
+		message.setText(Utility.generateMessage(getContext()));
+		//推荐书籍
 		GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
 		recyclerView.setLayoutManager(layoutManager);
 		adapter = new BookAdapter(books);
@@ -110,9 +120,9 @@ public class HomeFragment extends Fragment {
 
 		queryCatalog();
 
-//		List<Book> recommendBooks = DataSupport.limit(10).find(Book.class);
-//		books.addAll(recommendBooks);
 	}
+
+
 
 	private void queryCatalog() {
 		catalogs = DataSupport.findAll(BookCatalog.class);
@@ -124,19 +134,19 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void queryBook() {
-		Log.e(TAG,"开始querybook 22");
+		Log.e(TAG, "开始querybook 22");
 		books.clear();
 		books.addAll(DataSupport.findAll(Book.class));
 		//books.addAll(DataSupport.limit(10).find(Book.class));
 		if (books.size() > 0) {
-			Log.e(TAG,"开始querybook 33");
+			Log.e(TAG, "开始querybook 33");
 			adapter.notifyDataSetChanged();
 		} else {
-			Log.e(TAG,"开始querybook 44");
+			Log.e(TAG, "开始querybook 44");
 			catalogs = DataSupport.findAll(BookCatalog.class);
 
 			for (int i = 0; i < catalogs.size(); i++) {
-				Log.e(TAG,"开始querybook 55");
+				Log.e(TAG, "开始querybook 55");
 				String catalogId = catalogs.get(i).getBookCatalogId();
 				queryBookFromServer(catalogId);
 			}
@@ -150,7 +160,7 @@ public class HomeFragment extends Fragment {
 			//queryBook();
 			books.clear();
 			books.addAll(DataSupport.findAll(Book.class));
-			Log.e(TAG,"开始querybook 66 " + + books.size());
+			Log.e(TAG, "开始querybook 66 " + books.size());
 			adapter.notifyDataSetChanged();
 		}
 	}
@@ -162,18 +172,18 @@ public class HomeFragment extends Fragment {
 //				"&rn=" + RN;
 		String adress = "http://192.168.65.66:8080/atguigu/juhe/" +
 				catalogId + "book.json";
-		Log.e(TAG,"queryBookFromServer:" + adress);
+		Log.e(TAG, "queryBookFromServer:" + adress);
 		HttpUtil.sendOkHttpRequest(adress, new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
-				Log.e(TAG,"queryBookFromServer:FAILED");
+				Log.e(TAG, "queryBookFromServer:FAILED");
 			}
 
 			@Override
 			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
 				String responseText = response.body().string();
-				Log.e(TAG,"正在从服务器取book, catalogId=" + catalogId +", responseText=" + responseText);
+				Log.e(TAG, "正在从服务器取book, catalogId=" + catalogId + ", responseText=" + responseText);
 				Boolean result = handleBookResponse(responseText, catalogId);
 //				if (result) {
 //					getActivity().runOnUiThread(() -> {
@@ -187,22 +197,22 @@ public class HomeFragment extends Fragment {
 	public void queryCatalogFromServer() {
 		//String adress = "http://apis.juhe.cn/goodbook/catalog?key=" + KEY;
 		String adress = "http://192.168.65.66:8080/atguigu/juhe/catalog.json";
-		Log.e(TAG,"queryCatalogFromServer:" + adress);
+		Log.e(TAG, "queryCatalogFromServer:" + adress);
 
 		HttpUtil.sendOkHttpRequest(adress, new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
-				Log.e(TAG,"queryCatalogFromServer:FAILED");
+				Log.e(TAG, "queryCatalogFromServer:FAILED");
 			}
 
 			@Override
 			public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 				String responseText = response.body().string();
-				Log.e(TAG,"正在从服务器取catalog, responseText=" + responseText);
+				Log.e(TAG, "正在从服务器取catalog, responseText=" + responseText);
 				Boolean result = handleCatalogResponse(responseText);
 				if (result) {
 					getActivity().runOnUiThread(() -> {
-						Log.e(TAG,"开始querybook 11");
+						Log.e(TAG, "开始querybook 11");
 						queryBook();
 					});
 				}

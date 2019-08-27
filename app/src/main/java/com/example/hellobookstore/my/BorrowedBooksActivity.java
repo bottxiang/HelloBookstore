@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -19,6 +21,7 @@ import com.example.hellobookstore.db.Book;
 import com.example.hellobookstore.db.User;
 import com.example.hellobookstore.home.BookAdapter;
 import com.example.hellobookstore.util.LoginDao;
+import com.example.hellobookstore.util.Utility;
 
 import org.litepal.crud.DataSupport;
 
@@ -52,6 +55,7 @@ public class BorrowedBooksActivity extends AppCompatActivity {
 		ActionBar bar = getSupportActionBar();
 		if (bar != null) {
 			bar.setDisplayHomeAsUpEnabled(true);
+			bar.setTitle("已借书籍");
 		}
 	}
 
@@ -61,9 +65,9 @@ public class BorrowedBooksActivity extends AppCompatActivity {
 		String username = intent.getStringExtra("username");
 		User user = LoginDao.getUser(username);
 
-		//String[] borrowedBookIds = user.getRentedBookString().split(" ");
-		String[] borrowedBookIds = {"1", "2", "3"};
-		borrowedBooks = getBooks(borrowedBookIds);
+		String[] borrowedBookIds = user.getRentedBookString().split(" ");
+		//String[] borrowedBookIds = {"1", "2", "3"};
+		borrowedBooks = Utility.getBooks(borrowedBookIds);
 		Log.e(TAG, "username:" + user.getUsername() + " bookIds:" + borrowedBookIds[0]);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 		recyclerView.setLayoutManager(layoutManager);
@@ -71,14 +75,7 @@ public class BorrowedBooksActivity extends AppCompatActivity {
 		recyclerView.setAdapter(adapter);
 	}
 
-	private List<Book> getBooks(String[] borrowedBookIds) {
-		List<Book> books = new ArrayList<>();
-		for (String id : borrowedBookIds) {
-			Book book = DataSupport.find(Book.class, Integer.valueOf(id));
-			books.add(book);
-		}
-		return books;
-	}
+
 
 
 	@Override

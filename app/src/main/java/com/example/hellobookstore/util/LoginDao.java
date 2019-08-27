@@ -1,5 +1,7 @@
 package com.example.hellobookstore.util;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.hellobookstore.db.User;
@@ -7,6 +9,8 @@ import com.example.hellobookstore.db.User;
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class LoginDao {
 
@@ -48,5 +52,11 @@ public class LoginDao {
 			return users.get(0);
 		}
 		return null;
+	}
+	public static User getUser(Context context) {
+		SharedPreferences pref = context.getSharedPreferences("login_info", MODE_PRIVATE);
+		String username = pref.getString("username", "");
+		User user = LoginDao.getUser(username);
+		return user;
 	}
 }

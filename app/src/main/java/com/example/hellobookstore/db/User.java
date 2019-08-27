@@ -2,6 +2,9 @@ package com.example.hellobookstore.db;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User extends DataSupport {
 
 	private Long id;
@@ -16,18 +19,18 @@ public class User extends DataSupport {
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
-		this.rentedBookString = "0";
+		this.rentedBookString = "0 ";
 	}
 
 	public User() {
-		this.rentedBookString = "0";
+		this.rentedBookString = "0 ";
 	}
 
 	public User(String username, String password, String email) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.rentedBookString = "1";
+		this.rentedBookString = "0 ";
 	}
 
 	public Long getId() {
@@ -43,6 +46,18 @@ public class User extends DataSupport {
 		sb.append(id + " ");
 		//StringBuilder转换为String
 		rentedBookString = ""+ sb;
+	}
+	public void removeBookId(Long id) {
+		StringBuilder sb = new StringBuilder(rentedBookString);
+		String[] ids = sb.toString().split(" ");
+		sb.delete(0, sb.length());
+		for (String s : ids) {
+			if (!s.equals(String.valueOf(id))) {
+				sb.append(s + " ");
+			}
+		}
+		//StringBuilder转换为String
+		rentedBookString = sb.toString();
 	}
 
 	public String getRentedBookString() {

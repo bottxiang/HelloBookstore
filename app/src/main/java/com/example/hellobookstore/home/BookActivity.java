@@ -59,34 +59,37 @@ public class BookActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_book);
 		ButterKnife.bind(this);
 
+		loadData();
+
 		setSupportActionBar(toolbar);
 		actionBar = getSupportActionBar();
 		if (actionBar != null) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setTitle(book.getBookName());
 		}
-
-		loadData();
 
 		btnBorrow.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				bookRented.setVisibility(View.VISIBLE);
 				btnBorrow.setVisibility(View.GONE);
+
 				book.setRented(true);
-				Log.e(TAG, book.getBookName() +"is Rented: " + book.isRented());
 				book.update(book.getId());
+
 				user.addBookId(book.getId());
 				user.update(user.getId());
+				Log.e(TAG, book.getBookName() +"is Rented: " + book.isRented());
 			}
 		});
 	}
 
-//	@Override
-//	protected void onRestart() {
-//		super.onRestart();
-//		loadData();
-//		Log.e(TAG, book.getBookName() +"onRestart: " + book.isRented());
-//	}
+	@Override
+	protected void onStart() {
+		super.onStart();
+		loadData();
+		Log.e(TAG, book.getBookName() +"onStart: " + book.isRented());
+	}
 
 	private void loadData() {
 		SharedPreferences pref = getSharedPreferences("login_info", MODE_PRIVATE);
