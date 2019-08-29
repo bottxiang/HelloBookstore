@@ -6,21 +6,18 @@ import android.util.Log;
 
 import com.example.hellobookstore.db.Book;
 import com.example.hellobookstore.db.BookCatalog;
+import com.example.hellobookstore.db.Event;
 import com.example.hellobookstore.db.User;
+import com.example.hellobookstore.db.Weather;
+import com.google.gson.JsonObject;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -28,9 +25,69 @@ public class Utility {
 
 	public static final String TAG="Utility---";
 	public static final String KEY="987f68f7779e63af4c7f404586d4a4ea";
+	public static final String WEATHER_KEY="accbd471971dfce2cfd202c5e4de7ab8";
+	public static final String EVENT_KEY="b61cd7ece4b9388de10eb42984b7c5e4";
 	public static final String PN="0";
 	public static final String RN="20";
 
+
+	public static boolean handleEventResponse(List<Event> events, String response) {
+		try {
+			if (TextUtils.isNotEmpty(response)) {
+				JSONObject json = new JSONObject(response);
+				String reason = json.getString("reason");
+				if (reason.equals("success")) {
+					JSONArray result = json.getJSONArray("result");
+					for (int i = 0; i < result.length(); i++) {
+						JSONObject eventListJson = result.getJSONObject(i);
+						String date = eventListJson.getString("date");
+						String title = eventListJson.getString("title");
+						String e_id = eventListJson.getString("e_id");
+						Event event = new Event(date, title, e_id);
+						events.add(event);
+					}
+					Log.e(TAG,"event_list添加成功！");
+					return true;
+				} else {
+					Log.e(TAG,"event_list: FAILD");
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public static boolean handleDetailResponse(List<Event> events, String e_id, String response) {
+		try {
+			if (TextUtils.isNotEmpty(response)) {
+				JSONObject json = new JSONObject(response);
+				String reason = json.getString("reason");
+				if (reason.equals("success")) {
+					JSONArray result = json.getJSONArray("result");
+					JSONObject detail = result.getJSONObject(0);
+					String content = detail.getString("content");
+					JSONArray urls = detail.getJSONArray("picUrl");
+					JSONObject url = urls.getJSONObject(0);
+					String picUrl = url.getString("url");
+					for(Event event : events) {
+						if (e_id.equals(event.getE_id())) {
+							event.setContent(content);
+							event.setPicUrl(picUrl);
+						}
+					}
+					Log.e(TAG,"event_detail添加成功！");
+					return true;
+				} else {
+					Log.e(TAG,"event_detail: FAILD");
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return false;
+
+	}
 	public static boolean handleBookResponse(String response, String catalogId) {
 		try {
 			if (TextUtils.isNotEmpty(response)) {
@@ -124,4 +181,24 @@ public class Utility {
 		return message.toString();
 	}
 
+
+	public static Weather handleWeatherResponse(String response) {
+		try {
+			if (TextUtils.isNotEmpty(response)) {
+				JSONObject json = new JSONObject(response);
+				String reason = json.getString("reason");
+
+				JSONObject result = json.getJSONObject("result");
+				String cityName = result.getString("city");
+				JSONObject weatherContent = result.getJSONObject("realtime");
+				String degree = weatherContent.getString("temperature");
+				String weatherInfo = weatherContent.getString("info");
+				Weather weather = new Weather(cityName, degree, weatherInfo);
+				return weather;
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <com.youth.banner.Banner
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
@@ -23,6 +24,69 @@
                 app:indicator_height="5dp"
                 app:indicator_width="5dp"
                 app:is_auto_play="true" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="天气"
+                android:background="@color/colorOrange"
+                android:textColor="@color/colorWhite"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+                <ImageView
+                    android:id="@+id/bing_pic_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/weather_back"
+                    android:scaleType="centerCrop"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/title_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="30dp"
+                        android:text="苏州"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="40sp"/>
+                    <TextView
+                        android:id="@+id/weather_info_text"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="bottom"
+                        android:layout_marginLeft="10dp"
+                        android:text="晴"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/degree_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="end"
+                        android:text="29℃"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="60sp" />
+
+                </LinearLayout>
+            </FrameLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="借书消息"
+                android:background="@color/colorOrange"
+                android:textColor="@color/colorWhite"/>
             <TextView
                 android:id="@+id/message"
                 android:layout_width="match_parent"
@@ -32,11 +96,70 @@
                 android:ellipsize="end"
                 android:text="XXX，您当前共借了5本书，分别是《乔布斯传》、《明朝那些事儿》、《活着》、《爱的教育》、《四棵树》。请阅读后按时归还！"
                 android:textSize="20sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="历史上的今天"
+                android:background="@color/colorOrange"
+                android:textColor="@color/colorWhite"/>
+            <FrameLayout
+                android:id="@+id/today_in_history"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/event_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="1645年08月28日"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorWhite"/>
+                    <TextView
+                        android:id="@+id/event_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="国际法的创造者格老秀斯去世"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorWhite"/>
+                </LinearLayout>
+                <!--<TextView-->
+                    <!--android:id="@+id/event_content"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:maxLines="3"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:text="在373年前的今天，1645年8月28日 (农历七月初八)，国际法的创造者格老秀斯去世。\r\n    格老秀斯，又译为格劳秀斯、格劳秀士(Hugo Grotius，1583年-1645年8月28日（距今373年）)，出生于荷兰，为国际法鼻祖，亦为基督教护教学者。其名Hugo在国际公法首次传入中国时，被译为虎哥。"-->
+                    <!--android:textSize="20sp"/>-->
+            </FrameLayout>
+            <TextView
+                android:id="@+id/weather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="书籍推荐"
+                android:background="@color/colorOrange"
+                android:textColor="@color/colorWhite"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/banner">
+                android:layout_height="wrap_content">
             </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
