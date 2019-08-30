@@ -20,6 +20,8 @@ import com.example.hellobookstore.db.Book;
 import com.example.hellobookstore.db.User;
 import com.example.hellobookstore.util.LoginDao;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -68,15 +70,19 @@ public class BorrowedBookAdapter extends RecyclerView.Adapter<BorrowedBookAdapte
 				switch(v.getId()) {
 					case R.id.btn_cancel_borrow:
 						//取消借阅：将该书的状态设为未借阅
-						Book book = books.get(position);
+						Book bk = books.remove(position);
+						Book book = DataSupport.find(Book.class, bk.getId());
 						Log.e(TAG, " book id:" + book.getId());
 						book.setRented(false);
-						book.update(book.getId());
+						book.save();
 						//从用户的借阅列表中删除该书
-						User user = LoginDao.getUser(context);
+						User user = DataSupport.find(User.class, LoginDao.getUser(context).getId());
 						user.removeBookId(book.getId());
-						user.update(user.getId());
+						Log.e(TAG, "user.rentedBookString=" + user.getRentedBookString());
+						user.save();
+						//user.update(user.getId());
 						Toast.makeText(context, "position=" + position, Toast.LENGTH_SHORT).show();
+						BorrowedBookAdapter.this.notifyDataSetChanged();
 				}
 			}
 		});
@@ -85,16 +91,19 @@ public class BorrowedBookAdapter extends RecyclerView.Adapter<BorrowedBookAdapte
 
 	@Override
 	public void onBindViewHolder(@NonNull BorrowedBookAdapter.ViewHolder holder, int position) {
-		Book book = books.get(position);
-		Glide.with(context).load(book.getImageUrl()).into(holder.bookImage);
-		holder.bookName.setText(book.getBookName());
+		if (books != null) {
+			Book book = books.get(position);
+			Glide.with(context).load(book.getImageUrl()).into(holder.bookImage);
+			holder.bookName.setText(book.getBookName());
 
-		holder.btnCancelBorrow.setTag(position);
+			holder.btnCancelBorrow.setTag(position);
+		}
+
 	}
 
 	@Override
 	public int getItemCount() {
-		return books.size();
+		return books == null ? 0 : books.size();
 	}
 
 

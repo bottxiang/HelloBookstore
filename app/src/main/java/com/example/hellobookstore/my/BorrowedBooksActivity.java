@@ -64,11 +64,17 @@ public class BorrowedBooksActivity extends AppCompatActivity {
 		Intent intent = getIntent();
 		String username = intent.getStringExtra("username");
 		User user = LoginDao.getUser(username);
+		String RentedBookString = user.getRentedBookString();
+		if (!RentedBookString.equals("")) {
+			String[] borrowedBookIds = RentedBookString.split(" ");
+			//String[] borrowedBookIds = {"1", "2", "3"};
+			borrowedBooks = Utility.getBooks(borrowedBookIds);
+			Log.e(TAG, "username:" + user.getUsername() + " bookIds:" + borrowedBookIds[0]);
+		} else {
+			borrowedBooks = null;
+		}
 
-		String[] borrowedBookIds = user.getRentedBookString().split(" ");
-		//String[] borrowedBookIds = {"1", "2", "3"};
-		borrowedBooks = Utility.getBooks(borrowedBookIds);
-		Log.e(TAG, "username:" + user.getUsername() + " bookIds:" + borrowedBookIds[0]);
+
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 		recyclerView.setLayoutManager(layoutManager);
 		adapter = new BorrowedBookAdapter(borrowedBooks);

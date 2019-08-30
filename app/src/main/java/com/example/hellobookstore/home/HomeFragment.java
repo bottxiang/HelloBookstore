@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -108,6 +109,7 @@ public class HomeFragment extends Fragment {
 	private List<BookCatalog> catalogs;
 	private List<Book> books = new ArrayList<>();
 	private LocationClient mLocationClient;
+	private String city;
 
 	public HomeFragment() {
 		// Required empty public constructor
@@ -155,27 +157,27 @@ public class HomeFragment extends Fragment {
 				.start();//banner设置方法全部调用完毕时最后调用
 
 		//借书消息
-		message.setText(Utility.generateMessage(getContext()));
+		//message.setText(Utility.generateMessage(getContext()));
 
 		//历史上的今天
-		Event event = getEvent();
-		Glide.with(getActivity())
-				.asBitmap()
-				.load(event.getPicUrl())
-				.into(new SimpleTarget<Bitmap>() {
-					@Override
-					public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-						Drawable drawable = new BitmapDrawable(resource);
-						todayInHistory.setBackground(drawable);
-					}
+//		Event event = getEvent();
+//		Glide.with(getActivity())
+//				.asBitmap()
+//				.load(event.getPicUrl())
+//				.into(new SimpleTarget<Bitmap>() {
+//					@Override
+//					public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+//						Drawable drawable = new BitmapDrawable(resource);
+//						todayInHistory.setBackground(drawable);
+//					}
+//
+//				});
+//		eventDate.setText(event.getDate());
+//		eventTitle.setText(event.getTitle());
 
-				});
-		eventDate.setText(event.getDate());
-		eventTitle.setText(event.getTitle());
-		//eventContent.setText(event.getContent());
 
 		//天气
-		weather();
+		//weather();
 
 		//推荐书籍
 		GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
@@ -206,20 +208,14 @@ public class HomeFragment extends Fragment {
 		} else {
 			requestLocation();
 		}
-
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		String weatherString = prefs.getString("weather", null);
-		if (weatherString != null) {
-			Weather weather = Utility.handleWeatherResponse(weatherString);
-			showWeatherInfo(weather);
-		} else {
-			requestWeather("南京");
-		}
 	}
 
 
 
 	private void requestLocation() {
+		LocationClientOption option = new LocationClientOption();
+		option.setIsNeedAddress(true);
+		mLocationClient.setLocOption(option);
 		mLocationClient.start();
 	}
 
@@ -248,22 +244,20 @@ public class HomeFragment extends Fragment {
 	private class MyLocationListener implements BDLocationListener {
 		@Override
 		public void onReceiveLocation(BDLocation bdLocation) {
-			StringBuilder currentPosition = new StringBuilder();
-			currentPosition.append("纬度：").append(bdLocation.getLatitude()).append("\n");
-			currentPosition.append("经线：").append(bdLocation.getLongitude()).append("\n");
-			currentPosition.append("国家：").append(bdLocation.getCountry()).append("\n");
-			currentPosition.append("省：").append(bdLocation.getProvince()).append("\n");
-			currentPosition.append("市：").append(bdLocation.getCity()).append("\n");
-			currentPosition.append("区：").append(bdLocation.getDistrict()).append("\n");
-			currentPosition.append("街道：").append(bdLocation.getStreet()).append("\n");
-			currentPosition.append("定位方式：");
-			if (bdLocation.getLocType() == BDLocation.TypeGpsLocation) {
-				currentPosition.append("GPS");
-			} else if (bdLocation.getLocType() == BDLocation.TypeNetWorkLocation) {
-				currentPosition.append("网络");
+			city = bdLocation.getCity();
+			city = city.substring(0, city.length()-1);
+			Log.e(TAG, city);
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+			String weatherString = prefs.getString("weather", null);
+			if (weatherString != null) {
+				Weather weather = Utility.handleWeatherResponse(weatherString);
+				showWeatherInfo(weather);
+			} else {
+				requestWeather(city);
 			}
-			weatherText.setText(currentPosition);
 		}
+
+
 	}
 
 	/**
@@ -273,6 +267,7 @@ public class HomeFragment extends Fragment {
 		String weatherUrl = "http://apis.juhe.cn/simpleWeather/query?"
 				+ "key=" + WEATHER_KEY
 				+"&city=" + city_name;
+		Log.e(TAG, weatherUrl);
 		HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
 			@Override
 			public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -342,7 +337,7 @@ public class HomeFragment extends Fragment {
 			}
 		});
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -367,46 +362,12 @@ public class HomeFragment extends Fragment {
 				handleDetailResponse(events, e_id, responseText);
 			}
 		});
-//		for (int i = 0; i < events.size(); i++) {
-//			String e_id = events.get(i).getE_id();
-//			Log.e(TAG, events.get(i).getTitle());
-//			//String adress2 = "http://192.168.65.66:8080/atguigu/juhe/" + e_id + "event_detail.json";
-//			String adress2 = "http://v.juhe.cn/todayOnhistory/queryDetail.php?key="
-//					+ EVENT_KEY
-//					+ "&e_id=" + e_id;
-//			Log.e(TAG, "queryDetailFromServer:" + adress2);
-//			HttpUtil.sendOkHttpRequest(adress2, new Callback() {
-//				@Override
-//				public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//					Log.e(TAG, "queryDetailFromServer:FAILED");
-//				}
-//
-//				@Override
-//				public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//
-//					String responseText = response.body().string();
-//					Log.e(TAG, "正在从服务器取event_detail, responseText=" + responseText);
-//					handleDetailResponse(events, e_id, responseText);
-//				}
-//			});
-//		}
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-//		Log.e(TAG, "events.size = " + events.size());
-//		//返回一个随机
-//		Random rd = new Random();
-//		int index = rd.nextInt(events.size());
-//		for (int i = 0; i < events.size(); i++) {
-//			Log.e(TAG, events.get(i).getTitle());
-//			//Log.e(TAG, events.get(i).getContent());
-//			Log.e(TAG, events.get(i).getPicUrl());
-//		}
-
 		return events.get(index);
-		//return null;
 	}
 
 
@@ -438,7 +399,7 @@ public class HomeFragment extends Fragment {
 			}
 
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -453,12 +414,12 @@ public class HomeFragment extends Fragment {
 	}
 
 	public void queryBookFromServer(String catalogId) {
-		String adress = "http://apis.juhe.cn/goodbook/query?key=" + KEY +
-				"&catalog_id=" + catalogId +
-				"&pn=" + PN +
-				"&rn=" + RN;
-//		String adress = "http://192.168.65.66:8080/atguigu/juhe/" +
-//				catalogId + "book.json";
+//		String adress = "http://apis.juhe.cn/goodbook/query?key=" + KEY +
+//				"&catalog_id=" + catalogId +
+//				"&pn=" + PN +
+//				"&rn=" + RN;
+		String adress = "http://192.168.65.66:8080/atguigu/juhe/" +
+				catalogId + "book.json";
 		Log.e(TAG, "queryBookFromServer:" + adress);
 		HttpUtil.sendOkHttpRequest(adress, new Callback() {
 			@Override
@@ -482,8 +443,8 @@ public class HomeFragment extends Fragment {
 	}
 
 	public void queryCatalogFromServer() {
-		String adress = "http://apis.juhe.cn/goodbook/catalog?key=" + KEY;
-		//String adress = "http://192.168.65.66:8080/atguigu/juhe/catalog.json";
+		//String adress = "http://apis.juhe.cn/goodbook/catalog?key=" + KEY;
+		String adress = "http://192.168.65.66:8080/atguigu/juhe/catalog.json";
 		Log.e(TAG, "queryCatalogFromServer:" + adress);
 
 		HttpUtil.sendOkHttpRequest(adress, new Callback() {

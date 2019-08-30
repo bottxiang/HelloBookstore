@@ -1,11 +1,15 @@
 package com.example.hellobookstore.db;
 
+import android.util.Log;
+
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class User extends DataSupport {
+
+	private static final String TAG = "User---";
 
 	private Long id;
 	private String username;
@@ -19,18 +23,18 @@ public class User extends DataSupport {
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
-		this.rentedBookString = "0 ";
+		this.rentedBookString = "";
 	}
 
 	public User() {
-		this.rentedBookString = "0 ";
+		this.rentedBookString = "";
 	}
 
 	public User(String username, String password, String email) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.rentedBookString = "0 ";
+		this.rentedBookString = "";
 	}
 
 	public Long getId() {
@@ -53,11 +57,20 @@ public class User extends DataSupport {
 		sb.delete(0, sb.length());
 		for (String s : ids) {
 			if (!s.equals(String.valueOf(id))) {
+				Log.e(TAG, s + "!=" + String.valueOf(id));
 				sb.append(s + " ");
 			}
 		}
 		//StringBuilder转换为String
 		rentedBookString = sb.toString();
+		Log.e(TAG, "rentedBookString=" + rentedBookString);
+
+	}
+	public boolean isLastBook() {
+		if (rentedBookString.length() == 2) {
+			return true;
+		}
+		return false;
 	}
 
 	public String getRentedBookString() {
