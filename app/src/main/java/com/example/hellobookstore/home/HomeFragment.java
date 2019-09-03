@@ -156,28 +156,29 @@ public class HomeFragment extends Fragment {
 				.setImages(images)//设置图片集合
 				.start();//banner设置方法全部调用完毕时最后调用
 
+
+
 		//借书消息
-		//message.setText(Utility.generateMessage(getContext()));
+		message.setText(Utility.generateMessage(getContext()));
 
 		//历史上的今天
-//		Event event = getEvent();
-//		Glide.with(getActivity())
-//				.asBitmap()
-//				.load(event.getPicUrl())
-//				.into(new SimpleTarget<Bitmap>() {
-//					@Override
-//					public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-//						Drawable drawable = new BitmapDrawable(resource);
-//						todayInHistory.setBackground(drawable);
-//					}
-//
-//				});
-//		eventDate.setText(event.getDate());
-//		eventTitle.setText(event.getTitle());
+		Event event = getEvent();
+		Glide.with(getActivity())
+				.asBitmap()
+				.load(event.getPicUrl())
+				.into(new SimpleTarget<Bitmap>() {
+					@Override
+					public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+						Drawable drawable = new BitmapDrawable(resource);
+						todayInHistory.setBackground(drawable);
+					}
 
+				});
+		eventDate.setText(event.getDate());
+		eventTitle.setText(event.getTitle());
 
 		//天气
-		//weather();
+		weather();
 
 		//推荐书籍
 		GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
@@ -186,6 +187,7 @@ public class HomeFragment extends Fragment {
 		recyclerView.setAdapter(adapter);
 
 		queryCatalog();
+
 
 	}
 
@@ -381,19 +383,14 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void queryBook() {
-		Log.e(TAG, "开始querybook 22");
 		books.clear();
 		books.addAll(DataSupport.limit(20).find(Book.class));
-		//books.addAll(DataSupport.limit(10).find(Book.class));
 		if (books.size() > 0) {
-			Log.e(TAG, "开始querybook 33");
 			adapter.notifyDataSetChanged();
 		} else {
-			Log.e(TAG, "开始querybook 44");
 			catalogs = DataSupport.findAll(BookCatalog.class);
 
 			for (int i = 0; i < catalogs.size(); i++) {
-				Log.e(TAG, "开始querybook 55");
 				String catalogId = catalogs.get(i).getBookCatalogId();
 				queryBookFromServer(catalogId);
 			}
@@ -403,12 +400,9 @@ public class HomeFragment extends Fragment {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
-			//queryBook();
 			books.clear();
-			//books.addAll(DataSupport.findAll(Book.class));
 			books.addAll(DataSupport.limit(20).find(Book.class));
-			Log.e(TAG, "开始querybook 66 " + books.size());
+			Log.e(TAG, "开始querybook " + books.size());
 			adapter.notifyDataSetChanged();
 		}
 	}

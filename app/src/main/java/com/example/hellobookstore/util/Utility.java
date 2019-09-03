@@ -154,7 +154,8 @@ public class Utility {
 	public static List<Book> getBooks(String[] borrowedBookIds) {
 		List<Book> books = new ArrayList<>();
 		for (int i = 0; i < borrowedBookIds.length; i++) {
-			Book book = DataSupport.find(Book.class, Integer.valueOf(borrowedBookIds[i]));
+			int bookId = borrowedBookIds[i].equals("") ? 0 : Integer.valueOf(borrowedBookIds[i]);
+			Book book = DataSupport.find(Book.class, bookId);
 			if (book != null) {
 				books.add(book);
 			}

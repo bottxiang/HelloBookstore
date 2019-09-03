@@ -3,6 +3,7 @@ package com.example.hellobookstore.my;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,7 +67,7 @@ public class MyActivity extends AppCompatActivity {
 			email = users.get(0).getEmail();
 			v_id.setRightText(username);
 			v_name.setRightText(name);
-			v_password.setRightText(password);
+			v_password.setRightText("********");
 			v_email.setRightText(email);
 		} else {
 			Log.d(TAG, "数据库不存在此账号" + username);

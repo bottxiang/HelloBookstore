@@ -109,11 +109,11 @@ public class MyFragment extends Fragment {
 	private void loadData() {
 
 		//设置背景磨砂效果
-		Glide.with(this).load(R.drawable.head)
+		Glide.with(this).load(R.drawable.head2)
 				.apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 3)))
 				.into(hBack);
 		//设置圆形图像
-		Glide.with(this).load(R.drawable.head)
+		Glide.with(this).load(R.drawable.head2)
 				.apply(RequestOptions.bitmapTransform(new CropCircleWithBorderTransformation(2, getResources().getColor(R.color.colorWhite))))
 				.into(hHead);
 		pref = getActivity().getSharedPreferences("login_info", MODE_PRIVATE);

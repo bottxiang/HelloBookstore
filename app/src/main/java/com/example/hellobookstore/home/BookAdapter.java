@@ -58,7 +58,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 			public void onClick(View view) {
 				int position = viewHolder.getAdapterPosition();
 				Book book = books.get(position);
-				Toast.makeText(context, "you clicked view" + book.getBookName(), Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(context, BookActivity.class);
 				intent.putExtra("bookId", book.getId());
 				context.startActivity(intent);
