@@ -66,6 +66,8 @@ public class TypeFragment extends Fragment {
 	BookListAdapter bookListAdapter;
 	BookCatalogAdapter adapter;
 	private Context context;
+	private boolean isVisible;
+	private boolean isPrepared;
 
 	public TypeFragment() {
 		// Required empty public constructor
@@ -88,20 +90,40 @@ public class TypeFragment extends Fragment {
 	}
 
 	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (getUserVisibleHint()) {
+			isVisible = true;
+			lazyLoad();
+		}else{
+			isVisible = false;
+			// fragment is no longer visible
+		}
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		if (rootView == null) {
 			rootView = inflater.inflate(R.layout.fragment_type, container, false);
 		}
+		//初始化控件
 		ButterKnife.bind(this, rootView);
-
-		displayView();
-
+		isPrepared = true;
+		//填充控件数据
+		lazyLoad();
 		return rootView;
 	}
 
+	private void lazyLoad() {
+		if (!isPrepared || !isVisible) {
+			return;
+		}
+		loadData();
+	}
 
-	private void displayView() {
+
+	private void loadData() {
 		title.setText(getArguments().getString(ARG_PARAM));
 		mCatalogs = DataSupport.findAll(BookCatalog.class);
 		String categoryId = "242";
@@ -155,12 +177,12 @@ public class TypeFragment extends Fragment {
 	}
 
 	public static void queryBookFromServer(String catalogId) {
-//		String adress = "http://apis.juhe.cn/goodbook/query?key=" + KEY +
-//				"&catalog_id=" + catalogId +
-//				"&pn=" + PN +
-//				"&rn=" + RN;
-		String adress = "http://192.168.65.66:8080/atguigu/juhe/" +
-				catalogId + "book.json";
+		String adress = "http://apis.juhe.cn/goodbook/query?key=" + KEY +
+				"&catalog_id=" + catalogId +
+				"&pn=" + PN +
+				"&rn=" + RN;
+//		String adress = "http://192.168.65.66:8080/atguigu/juhe/" +
+//				catalogId + "book.json";
 		Log.e(TAG, "queryBookFromServer:" + adress);
 		HttpUtil.sendOkHttpRequest(adress, new Callback() {
 			@Override
@@ -184,8 +206,8 @@ public class TypeFragment extends Fragment {
 	}
 
 	public void queryCatalogFromServer() {
-		//String adress = "http://apis.juhe.cn/goodbook/catalog?key=" + KEY;
-		String adress = "http://192.168.65.66:8080/atguigu/juhe/catalog.json";
+		String adress = "http://apis.juhe.cn/goodbook/catalog?key=" + KEY;
+		//String adress = "http://192.168.65.66:8080/atguigu/juhe/catalog.json";
 		Log.e(TAG, "queryCatalogFromServer:" + adress);
 
 		HttpUtil.sendOkHttpRequest(adress, new Callback() {

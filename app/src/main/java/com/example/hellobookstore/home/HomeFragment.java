@@ -47,6 +47,7 @@ import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -318,11 +319,14 @@ public class HomeFragment extends Fragment {
 
 	private Event getEvent() {
 		List<Event> events = new ArrayList<>();
+		Calendar cal = Calendar.getInstance();
+		String date = cal.get(Calendar.MONTH) + 1 + "/" + cal.get(Calendar.DATE);
+		Log.e(TAG, date);
 
 		//String adress1 = "http://192.168.65.66:8080/atguigu/juhe/event_list.json";
 		String adress1 = "http://v.juhe.cn/todayOnhistory/queryEvent.php?key="
 				+ EVENT_KEY
-				+ "&date=8/29";
+				+ "&date=" + date;
 		Log.e(TAG, "queryEventFromServer:" + adress1);
 		HttpUtil.sendOkHttpRequest(adress1, new Callback() {
 			@Override
@@ -408,12 +412,12 @@ public class HomeFragment extends Fragment {
 	}
 
 	public void queryBookFromServer(String catalogId) {
-//		String adress = "http://apis.juhe.cn/goodbook/query?key=" + KEY +
-//				"&catalog_id=" + catalogId +
-//				"&pn=" + PN +
-//				"&rn=" + RN;
-		String adress = "http://192.168.65.66:8080/atguigu/juhe/" +
-				catalogId + "book.json";
+		String adress = "http://apis.juhe.cn/goodbook/query?key=" + KEY +
+				"&catalog_id=" + catalogId +
+				"&pn=" + PN +
+				"&rn=" + RN;
+		//String adress = "http://192.168.65.66:8080/atguigu/juhe/" +
+		//		catalogId + "book.json";
 		Log.e(TAG, "queryBookFromServer:" + adress);
 		HttpUtil.sendOkHttpRequest(adress, new Callback() {
 			@Override
@@ -437,8 +441,8 @@ public class HomeFragment extends Fragment {
 	}
 
 	public void queryCatalogFromServer() {
-		//String adress = "http://apis.juhe.cn/goodbook/catalog?key=" + KEY;
-		String adress = "http://192.168.65.66:8080/atguigu/juhe/catalog.json";
+		String adress = "http://apis.juhe.cn/goodbook/catalog?key=" + KEY;
+		//String adress = "http://192.168.65.66:8080/atguigu/juhe/catalog.json";
 		Log.e(TAG, "queryCatalogFromServer:" + adress);
 
 		HttpUtil.sendOkHttpRequest(adress, new Callback() {

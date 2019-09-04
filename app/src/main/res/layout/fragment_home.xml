@@ -28,10 +28,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20dp"
                 android:text="天气"
-                android:background="@color/colorOrange"
-                android:textColor="@color/colorWhite"/>
+                android:background="@color/colorGreyPrimary"
+                android:textColor="@color/colorGrey"/>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp">
@@ -83,10 +83,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20dp"
                 android:text="借书消息"
-                android:background="@color/colorOrange"
-                android:textColor="@color/colorWhite"/>
+                android:background="@color/colorGreyPrimary"
+                android:textColor="@color/colorGrey"/>
             <TextView
                 android:id="@+id/message"
                 android:layout_width="match_parent"
@@ -100,10 +100,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20dp"
                 android:text="历史上的今天"
-                android:background="@color/colorOrange"
-                android:textColor="@color/colorWhite"/>
+                android:background="@color/colorGreyPrimary"
+                android:textColor="@color/colorGrey"/>
             <FrameLayout
                 android:id="@+id/today_in_history"
                 android:layout_width="match_parent"
@@ -152,10 +152,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20dp"
                 android:text="书籍推荐"
-                android:background="@color/colorOrange"
-                android:textColor="@color/colorWhite"/>
+                android:background="@color/colorGreyPrimary"
+                android:textColor="@color/colorGrey"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"

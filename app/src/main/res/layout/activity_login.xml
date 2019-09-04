@@ -2,12 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:text="图书管理系统"
+        android:textSize="40sp"/>
 
     <EditText
         android:id="@+id/username_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_below="@id/title"
+        android:layout_marginTop="60dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:hint="@string/tip_username"

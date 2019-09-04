@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
 		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, fragments);
 		viewPager.setAdapter(viewPagerAdapter);
-		viewPager.setOffscreenPageLimit(0);
 		tabLayout.setupWithViewPager(viewPager);
 
 		setTabIcon();
